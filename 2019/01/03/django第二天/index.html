@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="keywords" content="hexo,个人博客,blog">
+  <meta name="description" content="某某的个人博客">
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="dns-prefetch" href="https://busuanzi.ibruce.info">
+  
+  <link rel="dns-prefetch" href="https://widget.daovoice.io">
+  <link rel="dns-prefetch" href="https://widget-static-cdn.daovoice.io">
+  <link rel="dns-prefetch" href="https://im.daovoice.io">
+  
+  
+  <link rel="dns-prefetch" href="https://hm.baidu.com/">
+  
+  
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://api.github.com">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com">
+  
+  <link rel="stylesheet" type="text/css" href="/./style/main.651055.css">
+	<link rel="shortcut icon" href="/favicon.ico" title="Favicon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+	<title>HouChenhao&#39;blog</title>
+  
+  <script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?awwssw1snsnsnn1ndndnndnd99j";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();
+  </script>
+  
+  
+    <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/123456.js","daovoice");daovoice('init',{app_id: "123456"});daovoice('update');
+  </script>
+  
+</head>
+<body>
+<canvas id="pattern-placeholder" height="230"></canvas>
+<div class="navbar-header">
+  <a class="blog-title" href="/">HouChenhao&#39;blog</a>
+  <a class="face-img" href="/">
+    <img src="https://tva3.sinaimg.cn/crop.0.0.200.200.180/005Kc3C1jw8f2uep0hhkvj305k05k3yk.jpg">
+  </a>
+</div>
+<main>
+  <div class="article-title">
+    
+
+    <ul class="article-info">
+      <li>
+        发布
+        <time datetime="2019-01-03T11:18:59.139Z" itemprop="datePublished">2019-01-03</time>
+      </li>
+      <li>
+        
+    更新 <time datetime="2019-01-03T11:18:59.139Z" itemprop="dateUpdated">2019-01-03</time>
+
+      </li>
+      <li id="busuanzi_container_page_pv">
+        阅读 <span id="busuanzi_value_page_pv"></span>
+      </li>
+    </ul>
+  </div>
+  <div class="container">
+    <div class="article">
+      <div class="content">
+        <p><strong>查询</strong></p>
+<pre><code>filter()方法,查询满足条件的信息: 模型名.objects.filter(条件)
+all()方法: 查询所有
+get()方法: 查询指定的条件
+    只能返回唯一的一个对象结果
+    条件必须成立
+first()方法: 取出结果中的第一个对象
+exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件)
+order_by()方法: 升序order_by(&apos;id&apos;)  降序order_by(&apos;-id&apos;)
+values()方法: 取查询对象中的字段
+exists(): 判断结果是否存在,存在返回True,否则返回False
+count()方法: 计算结果的条数
+pk: 主键（就是id）
+运算符
+    语法:  字段__contains
+    contains: 包含
+    startswith: 以什么开头
+    endswith: 以什么结束
+    in: 在某个范围之内
+    gt,gte: 大于,大于等于
+    lt,lte: 小于,小于等于
+聚合
+    from django.db.models import Max, Avg, Min, Sum, Count
+    语法: 模型名.objects.all().aggregate(Sum(字段))
+Q
+    与1: Q(条件1), Q(条件2)
+    与2: Q(条件1) &amp; Q(条件2)
+    或: Q(条件1) | Q(条件2)
+    非: ~Q(条件1)
+F
+    用于比较两个字段,可使用+,-符号
+    模型名.objects.filter(wuli__gt=F(&apos;math&apos;)-10)
+</code></pre><p>代码练习：</p>
+<p>1.插入</p>
+<pre><code>def add_stu(request):
+    # 实现插入数据
+    # 实现的第一种方式
+    #Student.objects.create(s_name=&apos;小明&apos;)
+    # 实现的第二种方式
+    stu = Student()
+    stu.s_name = &apos;小美&apos;
+    stu.s_gender = 1
+    stu.save()
+    return HttpResponse(&apos;创建学生成功&apos;)
+</code></pre><p>2.删除</p>
+<pre><code>def del_stu(request):
+    #删除数据
+
+    #1.获取删除对象
+    #2.实现删除方法
+    Student.objects.filter(id=3).delete()
+    return HttpResponse(&apos;删除学生成功&apos;)
+</code></pre><p>3.更新</p>
+<pre><code>def up_stu(request):
+    #更新数据
+
+    #1.获取更新的数据，filter（条件）
+
+    #2.实现更新方法，update()
+
+    #Student.objects.filter(id=2).update(s_name=&apos;妲己&apos;)
+    stu = Student.objects.filter(id=2).first()
+    stu.s_name = &apos;妲己2&apos;
+    stu.save()
+
+    return HttpResponse(&apos;更新学生成功&apos;)
+</code></pre><p>4.查询</p>
+<pre><code>def sel_stu(request):
+    # 查询学生信息
+    # 查询所有的学生信息
+    stus = Student.objects.all()
+    for stu in stus:
+        print(stu.s_name)
+
+    stu = Student.objects.filter(s_age=20).first()
+    print(stu)
+    #get()取唯一的一个对象
+    stu = Student.objects.get(id=2)
+    print(stu)
+
+    stus = Student.objects.filter(s_gender=1)
+    print(stus)
+    stus = Student.objects.exclude(s_gender=0)
+    print(stus)
+
+    #排序order_by
+    stus = Student.objects.order_by(&apos;id&apos;)
+    print(stus)
+    #降序
+    stus = Student.objects.order_by(&apos;-id&apos;)
+    print(stus)
+
+    #取出对象中的某个字段
+    stus = Student.objects.all().values(&apos;s_name&apos;,&apos;s_age&apos;)
+    print(stus)
+
+    stus = Student.objects.all().values()
+    print(stus)
+
+
+    #判断查询结果是否存在
+    a = Student.objects.filter(s_name=&apos;校长&apos;).exists()
+    b = Student.objects.filter(s_gender=1).count()
+    print(b)
+
+    #contains
+    #字段__运算符
+    c = Student.objects.filter(s_name__contains=&apos;小明&apos;)
+    print(c.values(&apos;s_name&apos;))
+
+
+    #like &quot;小%&quot; “明%”
+    #startwith  endwith
+    d = Student.objects.filter(s_name__startswith=&apos;小&apos;)
+    print(d.values())
+
+    e = Student.objects.filter(s_name__endswith=&apos;明&apos;)
+    print(e.values())
+
+    #sql where id in (1,2,3,4,5,6,7,8)
+    stus = Student.objects.filter(id__in=[1,2,3,4,5,6,7,8])
+    print(stus)
+    stus = Student.objects.filter(pk__in=[1,2,3,4,5,6,7,8])
+    print(stus)
+
+
+    #gte gt lt lte 大于等于 大于 小于 小于等于
+
+    stus = Student.objects.filter(s_age__gte=18,s_age__lte=20)
+
+    print(stus)
+    stus = Student.objects.filter(s_age__gte=18).filter(s_age__lte=20)
+    print(stus)
+
+    #聚合函数 Avg  Max Min Sum Count
+    age_avg = Student.objects.all().aggregate(Avg(&apos;s_age&apos;))
+
+    print(age_avg)
+    age_avg = Student.objects.all().aggregate(Sum(&apos;s_age&apos;))
+    print(age_avg)
+
+
+
+    stus = Student.objects.filter(s_age__gte=18, s_age__lt=20)
+    # 查询年龄大于等于18或者小于20,  Q()
+    stus = Student.objects.filter(Q(s_age__gte=18)|Q(s_age__lt=20))#或
+    stus = Student.objects.filter(Q(s_age__gte=18)&amp;Q(s_age__lt=20))#且
+    stus = Student.objects.filter(~Q(s_age__gte=18))#反
+
+    stus = Student.objects.all()
+    for stu in stus:
+        if(stu.physics &gt; stu.math):
+                print(stu.s_name)
+
+    stus = Student.objects.filter(physics__gt= F(&apos;math&apos;))
+    print(stus)
+
+
+    return HttpResponse(&apos;查询所有学生信息&apos;)
+</code></pre>
+      </div>
+        <div class="support-author">
+          <p>感谢您的阅读。 🙏
+          <a href="https://888.com/index.html" target="_blank">关于转载请看这里</a>
+            <!--<a class="btn-pay"  href="#pay-modal">¥ 打赏支持</a>-->
+          </p>
+        </div>
+        <!--
+            <div class="like ">
+              <div class="like-button">
+                <a id="like-note" href="">
+                  <i class="icon-heart"></i>喜欢
+                </a>
+              </div>
+              <span id="likes-count">256</span>
+            </div>
+        -->
+        <div class="otherLink">
+          <div class="previous">
+          </div>
+          <div class="next">
+          </div>
+        </div>
+        <div class="comments" id="comments">
+          
+<script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  const gitalk = new Gitalk({
+    clientID: '8888a8888',
+    clientSecret: '8888886666666',
+    repo: 'xxxx.github.io',
+    owner: 'admin',
+    admin: ['admin'],
+    id: location.pathname,      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false
+  })
+
+  gitalk.render('comments');
+</script>
+
+
+        </div>
+      </div>
+    </div>
+   
+</main>
+<div class="footer">
+  <div class="info">
+    <p>
+    <a href="https://hexo.io"> Hexo </a> 强力驱动 |
+      <a href="https://github.com/Youthink/hexo-themes-yearn"> Yearn </a>
+      主题
+    </p>
+    <p>&copy;2013-2018 某某的博客 京ICP备xxxxxx号</p>
+  </div>
+</div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<script type="text/javascript" src="/./js/main.651055.js"></script>
+
+</body>
+</html>
