@@ -6,20 +6,15 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>django第二天 | HouChenhao&#39;blog</title>
+  <title>Tag: django | HouChenhao&#39;blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="查询 filter()方法,查询满足条件的信息: 模型名.objects.filter(条件) all()方法: 查询所有 get()方法: 查询指定的条件     只能返回唯一的一个对象结果     条件必须成立 first()方法: 取出结果中的第一个对象 exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件) order_by()方法: 升序ord">
-<meta name="keywords" content="django">
-<meta property="og:type" content="article">
-<meta property="og:title" content="django第二天">
-<meta property="og:url" content="http://yoursite.com/2019/01/03/django第二天/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="HouChenhao&#39;blog">
+<meta property="og:url" content="http://yoursite.com/tags/django/index.html">
 <meta property="og:site_name" content="HouChenhao&#39;blog">
-<meta property="og:description" content="查询 filter()方法,查询满足条件的信息: 模型名.objects.filter(条件) all()方法: 查询所有 get()方法: 查询指定的条件     只能返回唯一的一个对象结果     条件必须成立 first()方法: 取出结果中的第一个对象 exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件) order_by()方法: 升序ord">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-03T12:14:38.915Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="django第二天">
-<meta name="twitter:description" content="查询 filter()方法,查询满足条件的信息: 模型名.objects.filter(条件) all()方法: 查询所有 get()方法: 查询指定的条件     只能返回唯一的一个对象结果     条件必须成立 first()方法: 取出结果中的第一个对象 exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件) order_by()方法: 升序ord">
+<meta name="twitter:title" content="HouChenhao&#39;blog">
   
     <link rel="alternative" href="/atom.xml" title="HouChenhao&#39;blog" type="application/atom+xml">
   
@@ -147,214 +142,36 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-django第二天" class="article article-type-post " itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      django第二天
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2019" class="archive-year">2019</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/01/03/django第二天/" class="archive-article-date">
+  	<time datetime="2019-01-03T12:14:38.918Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-03</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/01/03/django第二天/">django第二天</a>
     </h1>
   
 
-        
-        <a href="/2019/01/03/django第二天/" class="archive-article-date">
-  	<time datetime="2019-01-03T12:14:38.918Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>查询</strong></p>
-<pre><code>filter()方法,查询满足条件的信息: 模型名.objects.filter(条件)
-all()方法: 查询所有
-get()方法: 查询指定的条件
-    只能返回唯一的一个对象结果
-    条件必须成立
-first()方法: 取出结果中的第一个对象
-exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件)
-order_by()方法: 升序order_by(&apos;id&apos;)  降序order_by(&apos;-id&apos;)
-values()方法: 取查询对象中的字段
-exists(): 判断结果是否存在,存在返回True,否则返回False
-count()方法: 计算结果的条数
-pk: 主键（就是id）
-运算符
-    语法:  字段__contains
-    contains: 包含
-    startswith: 以什么开头
-    endswith: 以什么结束
-    in: 在某个范围之内
-    gt,gte: 大于,大于等于
-    lt,lte: 小于,小于等于
-聚合
-    from django.db.models import Max, Avg, Min, Sum, Count
-    语法: 模型名.objects.all().aggregate(Sum(字段))
-Q
-    与1: Q(条件1), Q(条件2)
-    与2: Q(条件1) &amp; Q(条件2)
-    或: Q(条件1) | Q(条件2)
-    非: ~Q(条件1)
-F
-    用于比较两个字段,可使用+,-符号
-    模型名.objects.filter(wuli__gt=F(&apos;math&apos;)-10)
-</code></pre><p>代码练习：</p>
-<p>1.插入</p>
-<pre><code>def add_stu(request):
-    # 实现插入数据
-    # 实现的第一种方式
-    #Student.objects.create(s_name=&apos;小明&apos;)
-    # 实现的第二种方式
-    stu = Student()
-    stu.s_name = &apos;小美&apos;
-    stu.s_gender = 1
-    stu.save()
-    return HttpResponse(&apos;创建学生成功&apos;)
-</code></pre><p>2.删除</p>
-<pre><code>def del_stu(request):
-    #删除数据
-
-    #1.获取删除对象
-    #2.实现删除方法
-    Student.objects.filter(id=3).delete()
-    return HttpResponse(&apos;删除学生成功&apos;)
-</code></pre><p>3.更新</p>
-<pre><code>def up_stu(request):
-    #更新数据
-
-    #1.获取更新的数据，filter（条件）
-
-    #2.实现更新方法，update()
-
-    #Student.objects.filter(id=2).update(s_name=&apos;妲己&apos;)
-    stu = Student.objects.filter(id=2).first()
-    stu.s_name = &apos;妲己2&apos;
-    stu.save()
-
-    return HttpResponse(&apos;更新学生成功&apos;)
-</code></pre><p>4.查询</p>
-<pre><code>def sel_stu(request):
-    # 查询学生信息
-    # 查询所有的学生信息
-    stus = Student.objects.all()
-    for stu in stus:
-        print(stu.s_name)
-
-    stu = Student.objects.filter(s_age=20).first()
-    print(stu)
-    #get()取唯一的一个对象
-    stu = Student.objects.get(id=2)
-    print(stu)
-
-    stus = Student.objects.filter(s_gender=1)
-    print(stus)
-    stus = Student.objects.exclude(s_gender=0)
-    print(stus)
-
-    #排序order_by
-    stus = Student.objects.order_by(&apos;id&apos;)
-    print(stus)
-    #降序
-    stus = Student.objects.order_by(&apos;-id&apos;)
-    print(stus)
-
-    #取出对象中的某个字段
-    stus = Student.objects.all().values(&apos;s_name&apos;,&apos;s_age&apos;)
-    print(stus)
-
-    stus = Student.objects.all().values()
-    print(stus)
-
-
-    #判断查询结果是否存在
-    a = Student.objects.filter(s_name=&apos;校长&apos;).exists()
-    b = Student.objects.filter(s_gender=1).count()
-    print(b)
-
-    #contains
-    #字段__运算符
-    c = Student.objects.filter(s_name__contains=&apos;小明&apos;)
-    print(c.values(&apos;s_name&apos;))
-
-
-    #like &quot;小%&quot; “明%”
-    #startwith  endwith
-    d = Student.objects.filter(s_name__startswith=&apos;小&apos;)
-    print(d.values())
-
-    e = Student.objects.filter(s_name__endswith=&apos;明&apos;)
-    print(e.values())
-
-    #sql where id in (1,2,3,4,5,6,7,8)
-    stus = Student.objects.filter(id__in=[1,2,3,4,5,6,7,8])
-    print(stus)
-    stus = Student.objects.filter(pk__in=[1,2,3,4,5,6,7,8])
-    print(stus)
-
-
-    #gte gt lt lte 大于等于 大于 小于 小于等于
-
-    stus = Student.objects.filter(s_age__gte=18,s_age__lte=20)
-
-    print(stus)
-    stus = Student.objects.filter(s_age__gte=18).filter(s_age__lte=20)
-    print(stus)
-
-    #聚合函数 Avg  Max Min Sum Count
-    age_avg = Student.objects.all().aggregate(Avg(&apos;s_age&apos;))
-
-    print(age_avg)
-    age_avg = Student.objects.all().aggregate(Sum(&apos;s_age&apos;))
-    print(age_avg)
-
-
-
-    stus = Student.objects.filter(s_age__gte=18, s_age__lt=20)
-    # 查询年龄大于等于18或者小于20,  Q()
-    stus = Student.objects.filter(Q(s_age__gte=18)|Q(s_age__lt=20))#或
-    stus = Student.objects.filter(Q(s_age__gte=18)&amp;Q(s_age__lt=20))#且
-    stus = Student.objects.filter(~Q(s_age__gte=18))#反
-
-    stus = Student.objects.all()
-    for stu in stus:
-        if(stu.physics &gt; stu.math):
-                print(stu.s_name)
-
-    stus = Student.objects.filter(physics__gt= F(&apos;math&apos;))
-    print(stus)
-
-
-    return HttpResponse(&apos;查询所有学生信息&apos;)
-</code></pre>
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -366,106 +183,57 @@ F
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/01/03/django第二天/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
   
-<nav id="article-nav">
-  
-  
-    <a href="/2019/01/03/django/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">django第一天</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+    
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2019/01/03/django/" class="archive-article-date">
+  	<time datetime="2019-01-03T12:14:13.120Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-03</time>
+</a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
+    	 
   
-  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2019/01/03/django/">django第一天</a>
+    </h1>
   
 
+        <div class="article-info info-on-right">
+          
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+          
+
+        </div>
+        <div class="clearfix"></div>
+    </header>
+  </div>
+</article>
+  
+  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -488,9 +256,9 @@ F
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
