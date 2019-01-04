@@ -138,357 +138,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-django第二天" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/django第二天/">增删改查操作</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/04/django第二天/" class="archive-article-date">
-  	<time datetime="2019-01-04T09:46:12.206Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>查询</strong></p>
-<pre><code>filter()方法,查询满足条件的信息: 模型名.objects.filter(条件)
-all()方法: 查询所有
-get()方法: 查询指定的条件
-    只能返回唯一的一个对象结果
-    条件必须成立
-first()方法: 取出结果中的第一个对象
-exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件)
-order_by()方法: 升序order_by(&apos;id&apos;)  降序order_by(&apos;-id&apos;)
-values()方法: 取查询对象中的字段
-exists(): 判断结果是否存在,存在返回True,否则返回False
-count()方法: 计算结果的条数
-pk: 主键（就是id）
-运算符
-    语法:  字段__contains
-    contains: 包含
-    startswith: 以什么开头
-    endswith: 以什么结束
-    in: 在某个范围之内
-    gt,gte: 大于,大于等于
-    lt,lte: 小于,小于等于
-聚合
-    from django.db.models import Max, Avg, Min, Sum, Count
-    语法: 模型名.objects.all().aggregate(Sum(字段))
-Q
-    与1: Q(条件1), Q(条件2)
-    与2: Q(条件1) &amp; Q(条件2)
-    或: Q(条件1) | Q(条件2)
-    非: ~Q(条件1)
-F
-    用于比较两个字段,可使用+,-符号
-    模型名.objects.filter(wuli__gt=F(&apos;math&apos;)-10)
-</code></pre><p>代码练习：</p>
-<p>1.插入</p>
-<pre><code>def add_stu(request):
-    # 实现插入数据
-    # 实现的第一种方式
-    #Student.objects.create(s_name=&apos;小明&apos;)
-    # 实现的第二种方式
-    stu = Student()
-    stu.s_name = &apos;小美&apos;
-    stu.s_gender = 1
-    stu.save()
-    return HttpResponse(&apos;创建学生成功&apos;)
-</code></pre><p>2.删除</p>
-<pre><code>def del_stu(request):
-    #删除数据
-
-    #1.获取删除对象
-    #2.实现删除方法
-    Student.objects.filter(id=3).delete()
-    return HttpResponse(&apos;删除学生成功&apos;)
-</code></pre><p>3.更新</p>
-<pre><code>def up_stu(request):
-    #更新数据
-
-    #1.获取更新的数据，filter（条件）
-
-    #2.实现更新方法，update()
-
-    #Student.objects.filter(id=2).update(s_name=&apos;妲己&apos;)
-    stu = Student.objects.filter(id=2).first()
-    stu.s_name = &apos;妲己2&apos;
-    stu.save()
-
-    return HttpResponse(&apos;更新学生成功&apos;)
-</code></pre><p>4.查询</p>
-<pre><code>def sel_stu(request):
-    # 查询学生信息
-    # 查询所有的学生信息
-    stus = Student.objects.all()
-    for stu in stus:
-        print(stu.s_name)
-
-    stu = Student.objects.filter(s_age=20).first()
-    print(stu)
-    #get()取唯一的一个对象
-    stu = Student.objects.get(id=2)
-    print(stu)
-
-    stus = Student.objects.filter(s_gender=1)
-    print(stus)
-    stus = Student.objects.exclude(s_gender=0)
-    print(stus)
-
-    #排序order_by
-    stus = Student.objects.order_by(&apos;id&apos;)
-    print(stus)
-    #降序
-    stus = Student.objects.order_by(&apos;-id&apos;)
-    print(stus)
-
-    #取出对象中的某个字段
-    stus = Student.objects.all().values(&apos;s_name&apos;,&apos;s_age&apos;)
-    print(stus)
-
-    stus = Student.objects.all().values()
-    print(stus)
-
-
-    #判断查询结果是否存在
-    a = Student.objects.filter(s_name=&apos;校长&apos;).exists()
-    b = Student.objects.filter(s_gender=1).count()
-    print(b)
-
-    #contains
-    #字段__运算符
-    c = Student.objects.filter(s_name__contains=&apos;小明&apos;)
-    print(c.values(&apos;s_name&apos;))
-
-
-    #like &quot;小%&quot; “明%”
-    #startwith  endwith
-    d = Student.objects.filter(s_name__startswith=&apos;小&apos;)
-    print(d.values())
-
-    e = Student.objects.filter(s_name__endswith=&apos;明&apos;)
-    print(e.values())
-
-    #sql where id in (1,2,3,4,5,6,7,8)
-    stus = Student.objects.filter(id__in=[1,2,3,4,5,6,7,8])
-    print(stus)
-    stus = Student.objects.filter(pk__in=[1,2,3,4,5,6,7,8])
-    print(stus)
-
-
-    #gte gt lt lte 大于等于 大于 小于 小于等于
-
-    stus = Student.objects.filter(s_age__gte=18,s_age__lte=20)
-
-    print(stus)
-    stus = Student.objects.filter(s_age__gte=18).filter(s_age__lte=20)
-    print(stus)
-
-    #聚合函数 Avg  Max Min Sum Count
-    age_avg = Student.objects.all().aggregate(Avg(&apos;s_age&apos;))
-
-    print(age_avg)
-    age_avg = Student.objects.all().aggregate(Sum(&apos;s_age&apos;))
-    print(age_avg)
-
-
-
-    stus = Student.objects.filter(s_age__gte=18, s_age__lt=20)
-    # 查询年龄大于等于18或者小于20,  Q()
-    stus = Student.objects.filter(Q(s_age__gte=18)|Q(s_age__lt=20))#或
-    stus = Student.objects.filter(Q(s_age__gte=18)&amp;Q(s_age__lt=20))#且
-    stus = Student.objects.filter(~Q(s_age__gte=18))#反
-
-    stus = Student.objects.all()
-    for stu in stus:
-        if(stu.physics &gt; stu.math):
-                print(stu.s_name)
-
-    stus = Student.objects.filter(physics__gt= F(&apos;math&apos;))
-    print(stus)
-
-
-    return HttpResponse(&apos;查询所有学生信息&apos;)
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/04/django第二天/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-django" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/django/">初识django</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/04/django/" class="archive-article-date">
-  	<time datetime="2019-01-04T09:44:27.529Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>1.虚拟环境</strong></p>
-<pre><code>安装: pip install virtualenv
-使用: virtualenv --no-site-packages -p D:\python3\python.exe name
-    --no-site-packages: 表示创建的虚拟环境为纯净的环境，不安装有其他的库
-    -p: 表示虚拟环境中的python版本
-pip使用
-    pip list: 插看安装的库
-    pip install xxx: 安装
-激活虚拟环境
-    Windows: 直接执行activate命令
-    Mac/Linux/Ubuntu: 直接执行source activate命令
-退出虚拟环境
-    Windows/Mac/Linux/Ubuntu: 直接执行deactivate
-</code></pre><p><strong>2.Django模式</strong></p>
-<pre><code>M
-    模型层: 定义模型和数据库中的表之间的关联关系
-V
-    视图层: 定义业务逻辑
-T
-    模板: HTML页面
-</code></pre><p><strong>3.Django项目</strong></p>
-<pre><code>创建: django-amdin startproject 项目名称
-启动
-    启动命令: python manage.py runserver。默认IP为127.0.0.1  默认端口为8000
-    修改启动端口: python manage.py runserver 端口
-    修改IP和端口: python manage.py runserver IP:端口
-    IP参数: 如果为0.0.0.0表示任何人都可以通过公网IP访问django项目
-    端口PORT参数: 如果端口设置为80，表示该端口可以不用写
-</code></pre><p><strong>4.数据库准备工作</strong></p>
-<pre><code>settings.py中配置
-    USER参数: 访问用户
-    PASSWORD参数: 密码
-    HOST参数: 访问数据库的地址
-    PORT参数: 访问数据库的端口
-    NAME参数: 数据库名
-    &apos;OPTIONS&apos;:{&apos;isolation_level&apos;:None}
-安装pymysql
-    使用pymysql连接数据库: 因为python3没有MySQLdb驱动，无法直接连接MySQL
-    在工程目录的__init__.py文件中定义  pymysql.install_as_MySQLdb()
-迁移
-    第一次迁移: python manege.py migrate
-    除开第一次迁移
-        生成迁移文件: python manage.py makemigrations
-        执行迁移文件: python manage.py migrate
-插入管理员账号
-    python manage.py createsuperuser
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/04/django/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-django3" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -496,13 +145,13 @@ T
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/04/django3/">3.模型设计与模板</a>
+      <a class="article-title" href="/2019/01/04/django3/">模型设计与模板</a>
     </h1>
   
 
         
         <a href="/2019/01/04/django3/" class="archive-article-date">
-  	<time datetime="2019-01-04T09:40:18.251Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
+  	<time datetime="2019-01-04T09:47:54.349Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
 </a>
         
       </header>
@@ -841,6 +490,357 @@ def index(request):
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/01/04/django3/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-django第二天" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/04/django第二天/">增删改查操作</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/04/django第二天/" class="archive-article-date">
+  	<time datetime="2019-01-04T09:46:12.206Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>查询</strong></p>
+<pre><code>filter()方法,查询满足条件的信息: 模型名.objects.filter(条件)
+all()方法: 查询所有
+get()方法: 查询指定的条件
+    只能返回唯一的一个对象结果
+    条件必须成立
+first()方法: 取出结果中的第一个对象
+exclude()方法: 查询出不满足条件的信息: 模型名.objects.exclude(条件)
+order_by()方法: 升序order_by(&apos;id&apos;)  降序order_by(&apos;-id&apos;)
+values()方法: 取查询对象中的字段
+exists(): 判断结果是否存在,存在返回True,否则返回False
+count()方法: 计算结果的条数
+pk: 主键（就是id）
+运算符
+    语法:  字段__contains
+    contains: 包含
+    startswith: 以什么开头
+    endswith: 以什么结束
+    in: 在某个范围之内
+    gt,gte: 大于,大于等于
+    lt,lte: 小于,小于等于
+聚合
+    from django.db.models import Max, Avg, Min, Sum, Count
+    语法: 模型名.objects.all().aggregate(Sum(字段))
+Q
+    与1: Q(条件1), Q(条件2)
+    与2: Q(条件1) &amp; Q(条件2)
+    或: Q(条件1) | Q(条件2)
+    非: ~Q(条件1)
+F
+    用于比较两个字段,可使用+,-符号
+    模型名.objects.filter(wuli__gt=F(&apos;math&apos;)-10)
+</code></pre><p>代码练习：</p>
+<p>1.插入</p>
+<pre><code>def add_stu(request):
+    # 实现插入数据
+    # 实现的第一种方式
+    #Student.objects.create(s_name=&apos;小明&apos;)
+    # 实现的第二种方式
+    stu = Student()
+    stu.s_name = &apos;小美&apos;
+    stu.s_gender = 1
+    stu.save()
+    return HttpResponse(&apos;创建学生成功&apos;)
+</code></pre><p>2.删除</p>
+<pre><code>def del_stu(request):
+    #删除数据
+
+    #1.获取删除对象
+    #2.实现删除方法
+    Student.objects.filter(id=3).delete()
+    return HttpResponse(&apos;删除学生成功&apos;)
+</code></pre><p>3.更新</p>
+<pre><code>def up_stu(request):
+    #更新数据
+
+    #1.获取更新的数据，filter（条件）
+
+    #2.实现更新方法，update()
+
+    #Student.objects.filter(id=2).update(s_name=&apos;妲己&apos;)
+    stu = Student.objects.filter(id=2).first()
+    stu.s_name = &apos;妲己2&apos;
+    stu.save()
+
+    return HttpResponse(&apos;更新学生成功&apos;)
+</code></pre><p>4.查询</p>
+<pre><code>def sel_stu(request):
+    # 查询学生信息
+    # 查询所有的学生信息
+    stus = Student.objects.all()
+    for stu in stus:
+        print(stu.s_name)
+
+    stu = Student.objects.filter(s_age=20).first()
+    print(stu)
+    #get()取唯一的一个对象
+    stu = Student.objects.get(id=2)
+    print(stu)
+
+    stus = Student.objects.filter(s_gender=1)
+    print(stus)
+    stus = Student.objects.exclude(s_gender=0)
+    print(stus)
+
+    #排序order_by
+    stus = Student.objects.order_by(&apos;id&apos;)
+    print(stus)
+    #降序
+    stus = Student.objects.order_by(&apos;-id&apos;)
+    print(stus)
+
+    #取出对象中的某个字段
+    stus = Student.objects.all().values(&apos;s_name&apos;,&apos;s_age&apos;)
+    print(stus)
+
+    stus = Student.objects.all().values()
+    print(stus)
+
+
+    #判断查询结果是否存在
+    a = Student.objects.filter(s_name=&apos;校长&apos;).exists()
+    b = Student.objects.filter(s_gender=1).count()
+    print(b)
+
+    #contains
+    #字段__运算符
+    c = Student.objects.filter(s_name__contains=&apos;小明&apos;)
+    print(c.values(&apos;s_name&apos;))
+
+
+    #like &quot;小%&quot; “明%”
+    #startwith  endwith
+    d = Student.objects.filter(s_name__startswith=&apos;小&apos;)
+    print(d.values())
+
+    e = Student.objects.filter(s_name__endswith=&apos;明&apos;)
+    print(e.values())
+
+    #sql where id in (1,2,3,4,5,6,7,8)
+    stus = Student.objects.filter(id__in=[1,2,3,4,5,6,7,8])
+    print(stus)
+    stus = Student.objects.filter(pk__in=[1,2,3,4,5,6,7,8])
+    print(stus)
+
+
+    #gte gt lt lte 大于等于 大于 小于 小于等于
+
+    stus = Student.objects.filter(s_age__gte=18,s_age__lte=20)
+
+    print(stus)
+    stus = Student.objects.filter(s_age__gte=18).filter(s_age__lte=20)
+    print(stus)
+
+    #聚合函数 Avg  Max Min Sum Count
+    age_avg = Student.objects.all().aggregate(Avg(&apos;s_age&apos;))
+
+    print(age_avg)
+    age_avg = Student.objects.all().aggregate(Sum(&apos;s_age&apos;))
+    print(age_avg)
+
+
+
+    stus = Student.objects.filter(s_age__gte=18, s_age__lt=20)
+    # 查询年龄大于等于18或者小于20,  Q()
+    stus = Student.objects.filter(Q(s_age__gte=18)|Q(s_age__lt=20))#或
+    stus = Student.objects.filter(Q(s_age__gte=18)&amp;Q(s_age__lt=20))#且
+    stus = Student.objects.filter(~Q(s_age__gte=18))#反
+
+    stus = Student.objects.all()
+    for stu in stus:
+        if(stu.physics &gt; stu.math):
+                print(stu.s_name)
+
+    stus = Student.objects.filter(physics__gt= F(&apos;math&apos;))
+    print(stus)
+
+
+    return HttpResponse(&apos;查询所有学生信息&apos;)
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/04/django第二天/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-django" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/04/django/">初识django</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/04/django/" class="archive-article-date">
+  	<time datetime="2019-01-04T09:44:27.529Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>1.虚拟环境</strong></p>
+<pre><code>安装: pip install virtualenv
+使用: virtualenv --no-site-packages -p D:\python3\python.exe name
+    --no-site-packages: 表示创建的虚拟环境为纯净的环境，不安装有其他的库
+    -p: 表示虚拟环境中的python版本
+pip使用
+    pip list: 插看安装的库
+    pip install xxx: 安装
+激活虚拟环境
+    Windows: 直接执行activate命令
+    Mac/Linux/Ubuntu: 直接执行source activate命令
+退出虚拟环境
+    Windows/Mac/Linux/Ubuntu: 直接执行deactivate
+</code></pre><p><strong>2.Django模式</strong></p>
+<pre><code>M
+    模型层: 定义模型和数据库中的表之间的关联关系
+V
+    视图层: 定义业务逻辑
+T
+    模板: HTML页面
+</code></pre><p><strong>3.Django项目</strong></p>
+<pre><code>创建: django-amdin startproject 项目名称
+启动
+    启动命令: python manage.py runserver。默认IP为127.0.0.1  默认端口为8000
+    修改启动端口: python manage.py runserver 端口
+    修改IP和端口: python manage.py runserver IP:端口
+    IP参数: 如果为0.0.0.0表示任何人都可以通过公网IP访问django项目
+    端口PORT参数: 如果端口设置为80，表示该端口可以不用写
+</code></pre><p><strong>4.数据库准备工作</strong></p>
+<pre><code>settings.py中配置
+    USER参数: 访问用户
+    PASSWORD参数: 密码
+    HOST参数: 访问数据库的地址
+    PORT参数: 访问数据库的端口
+    NAME参数: 数据库名
+    &apos;OPTIONS&apos;:{&apos;isolation_level&apos;:None}
+安装pymysql
+    使用pymysql连接数据库: 因为python3没有MySQLdb驱动，无法直接连接MySQL
+    在工程目录的__init__.py文件中定义  pymysql.install_as_MySQLdb()
+迁移
+    第一次迁移: python manege.py migrate
+    除开第一次迁移
+        生成迁移文件: python manage.py makemigrations
+        执行迁移文件: python manage.py migrate
+插入管理员账号
+    python manage.py createsuperuser
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/04/django/">展开全文 >></a>
         </p>
       
 
