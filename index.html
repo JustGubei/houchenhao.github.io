@@ -138,6 +138,125 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-django" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/04/django/">初识django</a>
+    </h1>
+  
+
+        
+        <a href="/2019/01/04/django/" class="archive-article-date">
+  	<time datetime="2019-01-04T09:44:27.529Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>1.虚拟环境</strong></p>
+<pre><code>安装: pip install virtualenv
+使用: virtualenv --no-site-packages -p D:\python3\python.exe name
+    --no-site-packages: 表示创建的虚拟环境为纯净的环境，不安装有其他的库
+    -p: 表示虚拟环境中的python版本
+pip使用
+    pip list: 插看安装的库
+    pip install xxx: 安装
+激活虚拟环境
+    Windows: 直接执行activate命令
+    Mac/Linux/Ubuntu: 直接执行source activate命令
+退出虚拟环境
+    Windows/Mac/Linux/Ubuntu: 直接执行deactivate
+</code></pre><p><strong>2.Django模式</strong></p>
+<pre><code>M
+    模型层: 定义模型和数据库中的表之间的关联关系
+V
+    视图层: 定义业务逻辑
+T
+    模板: HTML页面
+</code></pre><p><strong>3.Django项目</strong></p>
+<pre><code>创建: django-amdin startproject 项目名称
+启动
+    启动命令: python manage.py runserver。默认IP为127.0.0.1  默认端口为8000
+    修改启动端口: python manage.py runserver 端口
+    修改IP和端口: python manage.py runserver IP:端口
+    IP参数: 如果为0.0.0.0表示任何人都可以通过公网IP访问django项目
+    端口PORT参数: 如果端口设置为80，表示该端口可以不用写
+</code></pre><p><strong>4.数据库准备工作</strong></p>
+<pre><code>settings.py中配置
+    USER参数: 访问用户
+    PASSWORD参数: 密码
+    HOST参数: 访问数据库的地址
+    PORT参数: 访问数据库的端口
+    NAME参数: 数据库名
+    &apos;OPTIONS&apos;:{&apos;isolation_level&apos;:None}
+安装pymysql
+    使用pymysql连接数据库: 因为python3没有MySQLdb驱动，无法直接连接MySQL
+    在工程目录的__init__.py文件中定义  pymysql.install_as_MySQLdb()
+迁移
+    第一次迁移: python manege.py migrate
+    除开第一次迁移
+        生成迁移文件: python manage.py makemigrations
+        执行迁移文件: python manage.py migrate
+插入管理员账号
+    python manage.py createsuperuser
+</code></pre>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/01/04/django/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-django3" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -722,125 +841,6 @@ F
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2019/01/03/django第二天/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-django" class="article article-type-post  article-index" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/03/django/">django第一天</a>
-    </h1>
-  
-
-        
-        <a href="/2019/01/03/django/" class="archive-article-date">
-  	<time datetime="2019-01-03T12:14:13.120Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>1.虚拟环境</strong></p>
-<pre><code>安装: pip install virtualenv
-使用: virtualenv --no-site-packages -p D:\python3\python.exe name
-    --no-site-packages: 表示创建的虚拟环境为纯净的环境，不安装有其他的库
-    -p: 表示虚拟环境中的python版本
-pip使用
-    pip list: 插看安装的库
-    pip install xxx: 安装
-激活虚拟环境
-    Windows: 直接执行activate命令
-    Mac/Linux/Ubuntu: 直接执行source activate命令
-退出虚拟环境
-    Windows/Mac/Linux/Ubuntu: 直接执行deactivate
-</code></pre><p><strong>2.Django模式</strong></p>
-<pre><code>M
-    模型层: 定义模型和数据库中的表之间的关联关系
-V
-    视图层: 定义业务逻辑
-T
-    模板: HTML页面
-</code></pre><p><strong>3.Django项目</strong></p>
-<pre><code>创建: django-amdin startproject 项目名称
-启动
-    启动命令: python manage.py runserver。默认IP为127.0.0.1  默认端口为8000
-    修改启动端口: python manage.py runserver 端口
-    修改IP和端口: python manage.py runserver IP:端口
-    IP参数: 如果为0.0.0.0表示任何人都可以通过公网IP访问django项目
-    端口PORT参数: 如果端口设置为80，表示该端口可以不用写
-</code></pre><p><strong>4.数据库准备工作</strong></p>
-<pre><code>settings.py中配置
-    USER参数: 访问用户
-    PASSWORD参数: 密码
-    HOST参数: 访问数据库的地址
-    PORT参数: 访问数据库的端口
-    NAME参数: 数据库名
-    &apos;OPTIONS&apos;:{&apos;isolation_level&apos;:None}
-安装pymysql
-    使用pymysql连接数据库: 因为python3没有MySQLdb驱动，无法直接连接MySQL
-    在工程目录的__init__.py文件中定义  pymysql.install_as_MySQLdb()
-迁移
-    第一次迁移: python manege.py migrate
-    除开第一次迁移
-        生成迁移文件: python manage.py makemigrations
-        执行迁移文件: python manage.py migrate
-插入管理员账号
-    python manage.py createsuperuser
-</code></pre>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">django</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2019/01/03/django/">展开全文 >></a>
         </p>
       
 
